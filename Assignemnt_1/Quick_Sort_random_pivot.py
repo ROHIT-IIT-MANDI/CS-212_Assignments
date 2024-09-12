@@ -2,6 +2,8 @@ import time
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+
 def partition(arr, low, high):
     pivot = arr[np.random.randint(0,high+1)]  # Taking the last element as pivot
     i = low - 1  # Index of smaller element
@@ -51,6 +53,6 @@ for i in range(len(grouped_times)):
 
 plt.xlabel('Size of the array')
 plt.ylabel('Time taken (seconds)')
-plt.title('Merge Sort Time Complexity')
+plt.title('Quick Sort with random pivot Time Complexity')
 plt.legend()
 plt.show()

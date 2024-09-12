@@ -1,22 +1,41 @@
 import time
 import matplotlib.pyplot as plt
-import numpy as np
 
-def partition(arr, low, high):
-    pivot = arr[np.random.randint(0,high+1)]  # Taking the last element as pivot
-    i = low - 1  # Index of smaller element
-    for j in range(low, high):
-        if arr[j] < pivot:  # If the current element is smaller than or equal to pivot
-            i += 1
-            arr[i], arr[j] = arr[j], arr[i]  # Swap
-    arr[i + 1], arr[high] = arr[high], arr[i + 1]  # Place the pivot in the correct position
-    return i + 1
+def radix_sort(arr):
 
-def quickSort(arr, low, high):
-    if low < high:
-        pi = partition(arr, low, high)  # Partition index
-        quickSort(arr, low, pi - 1)  # Sort elements before partition
-        quickSort(arr, pi + 1, high)  # Sort elements after partition
+  
+  max_digits = len(str(max(arr)))
+
+  
+  temp = [0] * len(arr)
+
+  
+  for i in range(max_digits):
+   
+    count = [0] * 10
+
+    
+    for j in range(len(arr)):
+      digit = (arr[j] // (10 ** i)) % 10
+      count[digit] += 1
+
+    
+    for j in range(1, 10):
+      count[j] += count[j - 1]
+
+    
+    for j in range(len(arr) - 1, -1, -1):
+      digit = (arr[j] // (10 ** i)) % 10
+      temp[count[digit] - 1] = arr[j]
+      count[digit] -= 1
+
+    
+    arr = temp.copy()
+
+  return arr
+
+
+
 
 t = int(input())
 sizes = []
@@ -31,11 +50,11 @@ for k in range(t):
         arr[i] = int(input())
     sizes.append(n)
     start_time = time.time()
-    quickSort(arr,0,n-1)
+    radix_sort(arr)
     end_time = time.time()
     times.append((end_time - start_time))
 
-# Group the times and sizes for plotting
+# Grouping the times and sizes for plotting
 for i in range(0, len(times), 3):
     grouped_times.append(times[i:i+3])
     grouped_sizes.append(sizes[i:i+3])
@@ -43,7 +62,6 @@ for i in range(0, len(times), 3):
 # Plotting the graph
 colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
 label = ["Random no.s", "Sorted no.s" , "Reverse Sorted no.s", "Duplicate no.s"]
-
 plt.figure()
 
 for i in range(len(grouped_times)):
@@ -51,6 +69,6 @@ for i in range(len(grouped_times)):
 
 plt.xlabel('Size of the array')
 plt.ylabel('Time taken (seconds)')
-plt.title('Merge Sort Time Complexity')
+plt.title('Radix Sort Time Complexity')
 plt.legend()
 plt.show()

@@ -1,5 +1,10 @@
 import time
 import matplotlib.pyplot as plt
+import sys
+
+new_limit = 100000
+sys.setrecursionlimit(new_limit)
+
 
 def partition(arr, low, high):
     pivot = arr[high]  # Taking the last element as pivot
@@ -50,6 +55,6 @@ for i in range(len(grouped_times)):
 
 plt.xlabel('Size of the array')
 plt.ylabel('Time taken (seconds)')
-plt.title('Merge Sort Time Complexity')
+plt.title('Quick Sort with fixed pivot Time Complexity')
 plt.legend()
 plt.show()
